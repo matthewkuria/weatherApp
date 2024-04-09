@@ -1,9 +1,12 @@
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 
 const App = ():JSX.Element => {
+  // create a state variable "term" to store the value of the search box
   const [term, setTerm]=useState('');
-  const onInputChange =(e)=>{
-    console.log(e.target.value);
+  // Create a change event with the annotations as seen below
+  const onInputChange =(e:ChangeEvent<HTMLInputElement>)=>{
+    setTerm(e.target.value);
+    // console.log(e.target.value);
 
   }
   // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
