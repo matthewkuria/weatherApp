@@ -2,11 +2,26 @@ import { ChangeEvent, useState } from "react"
 
 const App = ():JSX.Element => {
   // create a state variable "term" to store the value of the search box
-  const [term, setTerm]=useState('');
+  const [term, setTerm]=useState<string>('');
   // Create a change event with the annotations as seen below
+  const [options, setOptions] = useState<[]>([]);
+
+  const getSearchOptions =(value: string) =>{
+     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${value.trim()}&limit=5&appid=${
+      process.env.REACT_APP_API_KEY}
+     `)
+     .then((res)=>res.json())
+     .then((data)=>setOptions(data))
+  }
+
   const onInputChange =(e:ChangeEvent<HTMLInputElement>)=>{
-    setTerm(e.target.value);
+    const value= e.target.value
+    setTerm(value);
+    
     // console.log(e.target.value);
+    if(value ==='')return
+    getSearchOptions(value)
+   
 
   }
   // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
@@ -18,12 +33,18 @@ const App = ():JSX.Element => {
      </h1>
      <p className="text-sm mt-2">Enter below a place you want to know the weather of and select an option from the dropdown</p>
 
-     <div className="flex mt-10 md:mt-4">
+     <div className="relative flex mt-10 md:mt-4">
         <input type="text" 
           value={term}
           onChange={onInputChange}
           className="px-2 py-1 rounded-l-md border-white"
           />
+        <ul className="absolute top-0 bg-white ml-1 rounded-b-md">
+            {options.map((option: {name: string})=>(
+              <p>{option.name}</p>
+            ))}
+        </ul>
+
           <button className="rounded-r-md border-2 border-zinc-100 hover:border-zinc-500 hover:text-zinc-500 text-zinc-1 py-1 px-2 cursor-pointer">
             search
           </button>
