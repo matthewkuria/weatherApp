@@ -1,54 +1,25 @@
-import { ChangeEvent, useEffect, useState } from "react"
-import { optionType } from "./types";
+import { ChangeEvent } from "react"
+import { optionType } from "../types"
 
-const App = ():JSX.Element => {
-  // create a state variable "term" to store the value of the search box
-  const [term, setTerm]=useState<string>('');
-  // Create a change event with the annotations as seen below
-  const[city, setCity] = useState<optionType | null>(null)
-  const [options, setOptions] = useState<[]>([]);
+type Props ={
+    term:string
+    options: []
+    onInputChange: (e: ChangeEvent<HTMLInputElement>)=> void
+    onOptionSelect: (option: optionType) => void
+    onSubmit: () => void
 
-  const getSearchOptions =(value: string) =>{
-     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${value.trim()}&limit=5&appid=${
-      process.env.REACT_APP_API_KEY}
-     `)
-     .then((res)=>res.json())
-     .then((data)=>setOptions(data))
-  }
-
-  const onInputChange =(e:ChangeEvent<HTMLInputElement>)=>{
-    const value= e.target.value
-    setTerm(value);
-    
-    // console.log(e.target.value);
-    if(value ==='') return
-    getSearchOptions(value)
-    }
-    const getForeCast =(city: optionType)=>{
-      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&units=metric
-      &appid=${process.env.REACT_APP_API_KEY}`)
-      .then((res) => res.json())
-      .then((data)=>console.log({data}))
-
-    }
-    const onSubmit= ()=>{
-      if(!city) return
-
-      getForeCast(city)
-    }
-    const onOptionSelect = (option:optionType) =>{
-      // console.log(option.name)
-      setCity(option)
-      
-
-    }
-    useEffect(()=>{
-if(city){
-  setTerm(city.name)
-  setOptions([])
 }
-    },[city])
-  // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
+
+const Search = (
+    {
+    term, 
+    options,
+    onInputChange,
+    onOptionSelect,
+    onSubmit,
+    }: Props
+):JSX.Element => {
+  
   return (
     <main className="flex justify-center items-center bg-gradient-to-br from-sky-400 via-rose-400 to-lime-400 h-[100vh] w-full">
       <section className="w-full md:max-w-[500px] p-4 flex flex-col text-center items-center justify-center md:px-10 lg:p-24 h-full lg:h-full lg;h-[500px] bg-white bg-opacity-20 backdrop-blur-lg drop-shadow-lg rounded text-zinc-700">
@@ -90,4 +61,4 @@ if(city){
   )
 }
 
-export default App
+export default Search
