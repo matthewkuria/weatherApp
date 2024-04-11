@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react"
+import { optionType } from "./types";
 
 const App = ():JSX.Element => {
   // create a state variable "term" to store the value of the search box
