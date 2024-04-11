@@ -19,11 +19,12 @@ const App = ():JSX.Element => {
     setTerm(value);
     
     // console.log(e.target.value);
-    if(value ==='')return
+    if(value ==='') return
     getSearchOptions(value)
-   
+    }
+    const onOptionSelect = (option) =>{
 
-  }
+    }
   // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
   return (
     <main className="flex justify-center items-center bg-gradient-to-br from-sky-400 via-rose-400 to-lime-400 h-[100vh] w-full">
@@ -39,9 +40,16 @@ const App = ():JSX.Element => {
           onChange={onInputChange}
           className="px-2 py-1 rounded-l-md border-white"
           />
-        <ul className="absolute top-0 bg-white ml-1 rounded-b-md">
-            {options.map((option: {name: string})=>(
-              <p>{option.name}</p>
+        <ul className="absolute top-9 bg-white ml-1 rounded-b-md">
+            {options.map((option: {name: string}, index: number)=>(
+              <li key={option.name +"-"+ index}>
+                <button className="text-left text-sm w-full
+                hover:bg-zinc-700 hover:text-white  px-2 py-1 cursor-pointer
+                " onClick={onOptionSelect(option)}>
+                  {option.name}
+                </button>
+
+              </li>
             ))}
         </ul>
 
