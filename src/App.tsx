@@ -23,7 +23,8 @@ const App = ():JSX.Element => {
     if(value ==='') return
     getSearchOptions(value)
     }
-    const onOptionSelect = (option) =>{
+    const onOptionSelect = (option:optionType) =>{
+      console.log(option.name)
 
     }
   // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
@@ -42,11 +43,11 @@ const App = ():JSX.Element => {
           className="px-2 py-1 rounded-l-md border-white"
           />
         <ul className="absolute top-9 bg-white ml-1 rounded-b-md">
-            {options.map((option: {name: string}, index: number)=>(
+            {options.map((option: optionType, index: number)=>(
               <li key={option.name +"-"+ index}>
                 <button className="text-left text-sm w-full
                 hover:bg-zinc-700 hover:text-white  px-2 py-1 cursor-pointer
-                " onClick={onOptionSelect(option)}>
+                " onClick={()=> onOptionSelect(option)}>
                   {option.name}
                 </button>
 

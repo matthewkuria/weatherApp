@@ -1,3 +1,5 @@
 export type optionType ={
-    name: string
+    name: string, 
+    lat: number,
+    lon: number,
 }
